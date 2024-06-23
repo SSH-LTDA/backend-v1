@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(uuid()) @db.Uuid
+  name      String
+  cpf       String    @unique
+  email     String    @unique
+  phone     String
+  role      UserRole  @default(Client)
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  bookings  Booking[]
+}
+
+model Accommodation {
+  id               String    @id @default(uuid()) @db.Uuid
+  type             String
+  size             Int
+	guestCapacity 	 Int
+  photos           String[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  bookings         Booking[]
+}
+
+model Booking {
+  id              String        @id @default(uuid()) @db.Uuid
+  date            DateTime
+  updatedAt       DateTime      @updatedAt
+  createdAt       DateTime      @default(now())
+  accommodationId String        @db.Uuid
+  employeeId      String        @db.Uuid
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
+  employee        User          @relation(fields: [employeeId], references: [id])
+
+  @@unique([date, accommodationId])
+}
+
+enum UserRole {
+  Client
+  Employee
+}

@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "@rocketseat/eslint-config/node",
+    "prettier"
+  ],
+  "rules": {
+    "indent": [
+      "error",
+      "tab"
+    ],
+    "no-trailing-spaces": "warn"
+  }
+}
