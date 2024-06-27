@@ -3,7 +3,7 @@ import z from "zod";
 export const CreateBookingSchema = z.object({
 	date: z.date(),
 	accommodationId: z.string(),
-	employeeId: z.string()
+	clientId: z.string()
 });
 
 

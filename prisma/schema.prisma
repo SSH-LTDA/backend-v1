@@ -21,14 +21,15 @@ model User {
 }
 
 model Accommodation {
-  id               String    @id @default(uuid()) @db.Uuid
-  type             String
-  size             Int
-	guestCapacity 	 Int
-  photos           String[]
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-  bookings         Booking[]
+  id            String     @id @default(uuid()) @db.Uuid
+  type          String
+  size          Int
+  guestCapacity Int
+  photos        String[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  bookings      Booking[]
+	facilities		String[]
 }
 
 model Booking {
@@ -37,9 +38,9 @@ model Booking {
   updatedAt       DateTime      @updatedAt
   createdAt       DateTime      @default(now())
   accommodationId String        @db.Uuid
-  employeeId      String        @db.Uuid
   accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
-  employee        User          @relation(fields: [employeeId], references: [id])
+  clientId      	String        @db.Uuid
+  client        User          @relation(fields: [clientId], references: [id])
 
   @@unique([date, accommodationId])
 }

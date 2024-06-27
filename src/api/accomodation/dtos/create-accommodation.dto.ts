@@ -5,6 +5,7 @@ export const CreateAccommodationSchema = z.object({
 	size: z.number(),
 	guestCapacity: z.number(),
 	photos: z.array(z.string()),
+	facilities: z.array(z.string()),
 });
 
 
