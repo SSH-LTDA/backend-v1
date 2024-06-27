@@ -1,7 +1,7 @@
 import {CreateAccommodationDto} from "./dtos/create-accommodation.dto";
 import {UpdateAccommodationDto} from "./dtos/update-accommodation.dto";
 import {AccommodationRepository} from "./accommodation.repository";
-import {PrismaClient, Accommodation} from "@prisma/client";
+import {Accommodation, PrismaClient} from "@prisma/client";
 import {NotFoundError} from "../../errors/not-found.error";
 
 export class AccommodationServiceImpl implements AccommodationRepository {
@@ -9,7 +9,11 @@ export class AccommodationServiceImpl implements AccommodationRepository {
 	private prismaService = new PrismaClient()
 
 	async findAll(): Promise<Accommodation[]> {
-		return this.prismaService.accommodation.findMany();
+		return this.prismaService.accommodation.findMany({
+			include: {
+				bookings: true
+			}
+		});
 	}
 
 	async findOne(id: string): Promise<Accommodation> {
