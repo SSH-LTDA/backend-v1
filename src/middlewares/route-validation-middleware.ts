@@ -4,7 +4,7 @@ import { z, ZodError } from 'zod';
 import {BadRequestError} from "../errors/bad-request.error";
 import {GeneralError} from "../errors/general.error";
 
-export function routeValidationMiddleware(schema: z.ZodObject<any, any>) {
+export const routeValidationMiddleware = (schema: z.ZodObject<any, any>) => {
 	return (req: Request, res: Response, next: NextFunction) => {
 		try {
 			schema.parse(req.body);
