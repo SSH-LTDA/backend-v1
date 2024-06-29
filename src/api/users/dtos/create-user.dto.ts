@@ -3,11 +3,11 @@ import {UserRole} from "@prisma/client";
 
 export const CreateUserSchema = z.object({
 	name: z.string(),
-	cpf: z.string().regex(/[0-9]{11}/),
+	cpf: z.string(),
 	email: z.string().email(),
 	phone: z.string(),
-	role: z.nativeEnum(UserRole),
-	password: z.string(),
+	role: z.nativeEnum(UserRole).optional(),
+	password: z.string().min(6),
 });
 
 
