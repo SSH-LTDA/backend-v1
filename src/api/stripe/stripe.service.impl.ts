@@ -7,8 +7,6 @@ class StripeServiceImpl implements StripeService {
 	async createCheckoutSession(data: CreateCheckoutSessionDTO) {
 		const { room, checkInDate, checkOutDate } = data;
 
-		console.log(data);
-
 		return await StripeApi.checkout.sessions.create({
 			payment_method_types: ["card"],
 			line_items: [
