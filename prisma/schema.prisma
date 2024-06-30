@@ -23,13 +23,15 @@ model User {
 model Accommodation {
   id            String     @id @default(uuid()) @db.Uuid
   type          String
-  size          Int
   guestCapacity Int
   photos        String[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   bookings      Booking[]
 	facilities		String[]
+  price         Int
+  beds          Int
+  description   String
 }
 
 model Booking {
