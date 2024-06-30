@@ -2,7 +2,6 @@ import { Router, Request, Response } from "express";
 import { AuthServiceImpl } from "./auth.service.impl";
 import { RegisterDto } from "./dtos/register.dto";
 import { LoginDto } from "./dtos/login.dto";
-import { routeValidationMiddleware } from "../../middlewares/route-validation-middleware";
 import { asyncHandler } from "../../middlewares/async-handler.middleware";
 
 const router = Router();
