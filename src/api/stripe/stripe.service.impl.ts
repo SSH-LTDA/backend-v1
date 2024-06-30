@@ -1,11 +1,13 @@
-import { StripeService } from "./stripe.service";
-import { CreateCheckoutSessionDTO } from "./dto/create-checkout-session.dto";
-import StripeApi from "../../core/stripe.api";
 import moment from "moment";
+import StripeApi from "../../core/stripe.api";
+import { CreateCheckoutSessionDTO } from "./dto/create-checkout-session.dto";
+import { StripeService } from "./stripe.service";
 
 class StripeServiceImpl implements StripeService {
 	async createCheckoutSession(data: CreateCheckoutSessionDTO) {
 		const { room, checkInDate, checkOutDate } = data;
+
+		console.log(data);
 
 		return await StripeApi.checkout.sessions.create({
 			payment_method_types: ["card"],
@@ -14,9 +16,9 @@ class StripeServiceImpl implements StripeService {
 					price_data: {
 						currency: "brl",
 						product_data: {
-							name: room.title,
+							name: room.type,
 							description: `Check-in: ${moment(checkInDate).format("DD-MM-YYYY")}  |  Check-out: ${moment(checkOutDate).format("DD-MM-YYYY")}`,
-							images: [room.images[0]],
+							images: [room.photos[0]],
 						},
 						unit_amount: room.price * 100,
 					},
