@@ -1,12 +1,12 @@
-import {CreateBookingDto} from "./dtos/create-booking.dto";
-import {UpdateBookingDto} from "./dtos/update-booking.dto";
-import {BookingRepository} from "./booking.repository";
-import {PrismaClient, Booking} from "@prisma/client";
-import {NotFoundError} from "../../errors/not-found.error";
+import moment from "moment";
+import { PrismaClient, Booking } from "@prisma/client";
+import { CreateBookingDto } from "./dtos/create-booking.dto";
+import { UpdateBookingDto } from "./dtos/update-booking.dto";
+import { BookingRepository } from "./booking.repository";
+import { NotFoundError } from "../../errors/not-found.error";
 
 export class BookingServiceImpl implements BookingRepository {
-
-	private prismaService = new PrismaClient()
+	private prismaService = new PrismaClient();
 
 	async findAll(): Promise<Booking[]> {
 		return this.prismaService.booking.findMany();
@@ -14,7 +14,7 @@ export class BookingServiceImpl implements BookingRepository {
 
 	async findOne(id: string): Promise<Booking> {
 		const booking = await this.prismaService.booking.findUnique({
-			where: {id}
+			where: { id },
 		});
 
 		if (!booking) {
@@ -25,23 +25,31 @@ export class BookingServiceImpl implements BookingRepository {
 	}
 
 	async create(data: CreateBookingDto): Promise<Booking> {
-		return this.prismaService.booking.create({data});
+		return this.prismaService.booking.create({
+			data: {
+				...data,
+				checkInDate: moment(data.checkInDate).toDate(),
+				checkOutDate: moment(data.checkOutDate).toDate(),
+			},
+		});
 	}
 
 	async update(id: string, data: UpdateBookingDto): Promise<Booking> {
 		return this.prismaService.booking.update({
-			where: {id},
-			data
+			where: { id },
+			data,
 		});
 	}
 
 	async delete(id: string): Promise<Booking> {
-		const booking = await this.prismaService.booking.findUnique({where: {id}});
+		const booking = await this.prismaService.booking.findUnique({
+			where: { id },
+		});
 
 		if (!booking) {
 			throw new NotFoundError("not_found", "Booking not found");
 		}
 
-		return this.prismaService.booking.delete({where: {id}});
+		return this.prismaService.booking.delete({ where: { id } });
 	}
 }
