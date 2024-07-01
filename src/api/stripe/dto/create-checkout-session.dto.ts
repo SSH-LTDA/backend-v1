@@ -1,9 +1,9 @@
 export interface CreateCheckoutSessionDTO {
 	room: {
 		id: number;
-		title: string;
+		type: string;
 		description: string;
-		images: string[];
+		photos: string[];
 		price: number;
 	};
 	checkInDate: string;
