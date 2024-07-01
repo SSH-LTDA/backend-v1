@@ -1,15 +1,20 @@
+import { Booking, PrismaClient } from "@prisma/client";
 import moment from "moment";
-import { PrismaClient, Booking } from "@prisma/client";
+import { NotFoundError } from "../../errors/not-found.error";
+import { BookingRepository } from "./booking.repository";
 import { CreateBookingDto } from "./dtos/create-booking.dto";
 import { UpdateBookingDto } from "./dtos/update-booking.dto";
-import { BookingRepository } from "./booking.repository";
-import { NotFoundError } from "../../errors/not-found.error";
 
 export class BookingServiceImpl implements BookingRepository {
 	private prismaService = new PrismaClient();
 
 	async findAll(): Promise<Booking[]> {
-		return this.prismaService.booking.findMany();
+		return this.prismaService.booking.findMany({
+			include: {
+				accommodation: true,
+				client: true
+			}
+		});
 	}
 
 	async findOne(id: string): Promise<Booking> {
